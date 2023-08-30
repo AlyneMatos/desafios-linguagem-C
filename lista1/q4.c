@@ -9,5 +9,4 @@ int main(){
    printf("triplo de x: %d\n",x/2);
 
    return 0;
-
 }
