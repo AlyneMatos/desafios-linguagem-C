@@ -3,36 +3,37 @@
 #include <time.h>
 
 int main(){
-   unsigned char armarios = 0;
-   int opcao;
-   int armarioAleatorio;
-   int desocupar;
+    unsigned char armarios = 0;
+    int opcao;
+    int armarioAleatorio;
+    int desocupar;
+
     srand(time(NULL));
 
-   printf("MENU: \n");
-   printf("1. Ocupar armario.\n");
-   printf("2. Liberar armario.\n");
-   printf("3. Sair.\n");
-   printf("Opção: ");
-   scanf("%d",&opcao);
+    printf("MENU: \n");
+    printf("1. Ocupar armario.\n");
+    printf("2. Liberar armario.\n");
+    printf("3. Sair.\n");
+    printf("Opção: ");
+    scanf("%d",&opcao);
 
-   while(opcao!=3){
+    while(opcao!=3){
 
-       switch (opcao)
-       {
-       case 1:
+        switch (opcao){
 
-        if (armarios == 255) {
-            printf("\nATENÇÃO: TODOS OS ARMÁRIOS ESTÃO OCUPADOS.\n");
-        } else {
-            do {
-                armarioAleatorio = rand() % 8;
-            } while ((armarios >> armarioAleatorio) & 1); 
+        case 1:
+            if (armarios == 255) {
+                printf("\nATENÇÃO: TODOS OS ARMÁRIOS ESTÃO OCUPADOS.\n");
+            } else {
+                do {
+                    armarioAleatorio = rand() % 8;
+                } while ((armarios >> armarioAleatorio) & 1); 
            
            armarios |= (1 << armarioAleatorio);
-           printf("--------- Numero do armário ocupado: %d ---------\n", armarioAleatorio+1);
+           printf("--------- Número do armário ocupado: %d ---------\n", armarioAleatorio+1);
         }
            break;
+
        case 2:
            printf("Qual armário você deseja desocupar?\n");
            scanf("%d",&desocupar);
@@ -45,13 +46,14 @@ int main(){
             }
 
            break;
+
        case 3:
            printf("Saindo...\n");
        break;
   
        default:
            printf("DIGITE UMA OPÇÃO VALIDA!\n\n");
-           break;
+        break;
    }
     
     printf("\n==================================\n");
@@ -66,11 +68,11 @@ int main(){
     }
     printf("\n==================================\n");
 
-       printf("\nMENU: \n");
-       printf("1. Ocupar armário.\n");
-       printf("2. Liberar armário.\n");
-       printf("3. Sair.\n");
-        printf("Opção: ");
-       scanf("%d",&opcao);
+    printf("\nMENU: \n");
+    printf("1. Ocupar armário.\n");
+    printf("2. Liberar armário.\n");
+    printf("3. Sair.\n");
+    printf("Opção: ");
+    scanf("%d",&opcao);
    }
 }
