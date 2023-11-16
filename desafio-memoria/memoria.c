@@ -7,7 +7,6 @@
 #define MAX_TAM_PROCESSO 100
 
 struct Memoria {
-    // F - para livre e V - para ocupado
   char estado; 
   int enderecoInicial;
   int enderecoFinal; 
@@ -16,8 +15,10 @@ struct Memoria {
 };
 
 struct Memoria *tamanhoDaMemoria(int tamanho) {
+
   struct Memoria *memoria = (struct Memoria*) malloc(sizeof (struct Memoria));
-  memoria->estado = 'f';
+
+  memoria->estado = 'L';
   memoria->enderecoInicial = 0;
   memoria->enderecoFinal = 0;
   memoria->tamanho = tamanho;
@@ -31,45 +32,49 @@ void inicializarProcessos(struct Memoria *memoria, int num) {
 
     int enderecoFinalAnterior = 0;
 
-    for (int i = 0; i < num; i++) {
-        int tamanhoProcesso = rand() % (MAX_TAM_PROCESSO - MIN_TAM_PROCESSO + 1) + MIN_TAM_PROCESSO;
+    for (int k = 0; k < num; k++) {
 
-        struct Memoria *novoProcesso = (struct Memoria *)malloc(sizeof(struct Memoria));
-        novoProcesso->estado = 'v';
-        novoProcesso->enderecoInicial = enderecoFinalAnterior;
-        novoProcesso->enderecoFinal = enderecoFinalAnterior + tamanhoProcesso;
-        novoProcesso->tamanho = tamanhoProcesso;
-        novoProcesso->proximo = memoria->proximo;
+            int tamanhoProcesso = rand() % (MAX_TAM_PROCESSO - MIN_TAM_PROCESSO + 1) + MIN_TAM_PROCESSO;
 
-        novoProcesso->proximo = memoria->proximo;
-        memoria->proximo = novoProcesso;
+            struct Memoria *novoProcesso = (struct Memoria *)malloc(sizeof(struct Memoria));
 
-        enderecoFinalAnterior = novoProcesso->enderecoFinal;
-    }
+            novoProcesso->estado = 'O';
+            novoProcesso->enderecoInicial = enderecoFinalAnterior;
+            novoProcesso->enderecoFinal = enderecoFinalAnterior + tamanhoProcesso;
+            novoProcesso->tamanho = tamanhoProcesso;
+
+            // Aqui adiciona novo processo na lista encadeada
+            novoProcesso->proximo = memoria->proximo;
+            memoria->proximo = novoProcesso;
+
+            enderecoFinalAnterior = novoProcesso->enderecoFinal;
+      }
 }
 
 void imprimirLista(struct Memoria *memoria) {
+  int cont =0;
     while (memoria != NULL) {
-        if (memoria->estado == 'f') {
+        if (memoria->estado == 'L') {
             printf("\nMemoria Inicial [%c] Inicio: %d, Tamanho: %d\n", memoria->estado, memoria->enderecoInicial, memoria->tamanho);
             printf("\n\nProcessando....\n\n");
         } else {
-            printf("Processo Estado: %c, Inicio: %d, Final: %d, Tamanho: %d\n", memoria->estado, memoria->enderecoInicial, memoria->enderecoFinal, memoria->tamanho);
+            printf("Processo[%d] Estado: %c, Inicio: %d, Final: %d, Tamanho: %d\n", cont,memoria->estado, memoria->enderecoInicial, memoria->enderecoFinal, memoria->tamanho);
         }
         memoria = memoria->proximo;
+        cont++;
     }
 }
 
 int main(){
 
-  //inicilizacao da memoria de 0 a 1000
   struct Memoria *memoria = tamanhoDaMemoria(TAM_MEMORIA);
   
   int num;
   printf("Quantidade de processos? ");
   scanf("%d",&num);
+
   inicializarProcessos(memoria,num);
-    imprimirLista(memoria);
+  imprimirLista(memoria);
 
   return 0;
 }
